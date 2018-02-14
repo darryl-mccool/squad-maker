@@ -15,7 +15,7 @@ players: [
         rating: '{{integer(20, 100)}}'
       },
       {
-        name: 'Checking',
+        type: 'Checking',
         rating: '{{integer(20, 100)}}'
       }
     ]
