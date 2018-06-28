@@ -26,26 +26,13 @@
 
         <button type="button" id=reset onClick="window.location.reload()">Reset Squads</button>
 
-        <table class=playerList>
-            <caption><h2>Waiting List</h2></caption>
-            <tr>
-              <th>Name</th>
-              <th>Skating</th> 
-              <th>Shooting</th>
-              <th>Checking</th>
-            </tr>
-            <tr>
-              <td>Jill Smith</td>
-              <td>50</td> 
-              <td>50</td>
-              <td>50</td>
-            </tr>
-            <tr>
-              <td>Eve Jackson</td>
-              <td>95</td> 
-              <td>95</td>
-              <td>95</td>
-            </tr>
-          </table>
+        <div>
+            <h3>Waiting List</h3>
+            {% if waitingList %}
+                <div>{{ waitingList|safe }</div>
+            {% else %}
+                <div>No Waiting List Found</div>
+            {% endif %}
+        </div>
     </body>
 </html>
