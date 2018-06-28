@@ -1,0 +1,7 @@
+.pylintrc
+*.pyc
+templates/squad*
+templates/waitList.html
+test/.pytest_cache/*
+.pytest_cache/*
+
