@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .playerList{
+            width: 50%;
+            background-color: blanchedalmond
+        }
+    </style>
+ 
+    <head>
+        <title>Hockey Squad Builder</title>
+    </head>
+ 
+    <body>
+        <h1>Hockey Squad Builder</h1>
+
+        Number of Squads:
+        <input type="number" id=numSquads name=numSquads value=1 min=1 /> <br>
+
+        <button type="button" id=genSquads>Generate Squads</button> <br>
+
+        <button type="button" id=reset>Reset Squads</button>
+
+        <table class=playerList>
+            <caption><h2>Waiting List</h2></caption>
+            <tr>
+              <th>Name</th>
+              <th>Skating</th> 
+              <th>Shooting</th>
+              <th>Checking</th>
+            </tr>
+            <tr>
+              <td>Jill Smith</td>
+              <td>50</td> 
+              <td>50</td>
+              <td>50</td>
+            </tr>
+            <tr>
+              <td>Eve Jackson</td>
+              <td>95</td> 
+              <td>95</td>
+              <td>95</td>
+            </tr>
+          </table>
+    </body>
+</html>
