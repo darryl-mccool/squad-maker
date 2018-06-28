@@ -1,7 +1,7 @@
 import squads
 
 from unittest import TestCase
-from unittest.mock import mock_open, patch
+from unittest.mock import MagicMock, mock_open, patch
 
 from players import Player, PlayerList, PlayerTable
 
@@ -54,3 +54,101 @@ class TestSquad(TestCase):
             html = squad.toHTML()
 
         self.assertEqual(html, expectedHTML)
+
+
+class TestGetBalancedSquads(TestCase):
+
+    @patch('players.PlayerList.toHTML', MagicMock)
+    @patch('squads.Squad.toHTML', MagicMock)
+    def testGetBalancedSquads(self):
+        numSquads = 2
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        expectedSquads = [squads.Squad(1, [player1, player3]),
+                          squads.Squad(2, [player2, player4])]
+
+        balSquads = squads.getBalancedSquads(numSquads, playerList)
+
+        for squad in balSquads:
+            print(squad.squadNum)
+            for player in squad.players:
+                print(player.name)
+
+        for squad in expectedSquads:
+            print(squad.squadNum)
+            for player in squad.players:
+                print(player.name)
+        self.assertEqual(balSquads, expectedSquads)
+
+    @patch('players.PlayerList.toHTML', MagicMock)
+    @patch('squads.Squad.toHTML', MagicMock)
+    def testGetBalancedSquads__OneSquad(self):
+        numSquads = 1
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        expectedSquads = [squads.Squad(1, playerList.players)]
+
+        balSquads = squads.getBalancedSquads(numSquads, playerList)
+        self.assertEqual(balSquads, expectedSquads)
+        self.assertEqual(playerList.players, [])
+
+    @patch('players.PlayerList.toHTML', MagicMock)
+    @patch('squads.Squad.toHTML', MagicMock)
+    def testGetBalancedSquads__NSquads(self):
+        numSquads = 4
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        expectedSquads = [squads.Squad(1, [player4]),
+                          squads.Squad(2, [player3]),
+                          squads.Squad(3, [player2]),
+                          squads.Squad(4, [player1])]
+
+        balSquads = squads.getBalancedSquads(numSquads, playerList)
+
+        self.assertEqual(balSquads, expectedSquads)
+        self.assertEqual(playerList.players, [])
+
+    def testGetBalancedSquadsRaisesValueError__GreaterThanNSquads(self):
+        numSquads = 5
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        with self.assertRaises(ValueError):
+            balSquads = squads.getBalancedSquads(numSquads, playerList)
+
+    def testGetBalancedSquadsRaisesValueError__ZeroSquads(self):
+        numSquads = 0
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        with self.assertRaises(ValueError):
+            balSquads = squads.getBalancedSquads(numSquads, playerList)
+
+    def testGetBalancedSquadsRaisesValueError__NegSquads(self):
+        numSquads = -1
+        player1 = Player("99", "Wayne Gretzky", 99, 99, 99)
+        player2 = Player("97", "Connor McDavid", 97, 97, 97)
+        player3 = Player("123", "Ben Schreiber", 51, 51, 51)
+        player4 = Player("404", "Nota RealPlayer", 20, 20, 20)
+        playerList = PlayerList([player1, player2, player3, player4])
+
+        with self.assertRaises(ValueError):
+            balSquads = squads.getBalancedSquads(numSquads, playerList)
