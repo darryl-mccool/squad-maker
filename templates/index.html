@@ -17,14 +17,18 @@
     </head>
  
     <body>
+        {% if errorPopup %}
+            <div>{{ errorPopup|safe }}</div>
+        {% endif %}
         <h1>Hockey Squad Builder</h1>
-
-        Number of Squads:
-        <input type="number" id=numSquads name=numSquads value=1 min=1 /> <br>
-
-        <button type="button" id=genSquads>Generate Squads</button> <br>
-
-        <button type="button" id=reset onClick="window.location.reload()">Reset Squads</button>
+        <form action="/squads" method="POST">
+            Number of Squads:
+            <input type="number" id=numSquads name=numSquads value=1 min=1 /> <br>
+            <button type="submit" id=genSquads>Generate Squads</button> <br>
+        </form>
+        <form action = "/", method="GET">
+            <button type="submit">Reset Squads</button>
+        </form>
 
         <div>
             <h3>Waiting List</h3>
@@ -34,5 +38,13 @@
                 <div>No Waiting List Found</div>
             {% endif %}
         </div>
+        {% if squads %}
+            <div>
+                {% for squad in squads %}
+                    <h3>Squad {{loop.index}}</h3>
+                    {{ squad|safe }}
+                {% endfor %}
+            </div>
+        {% endif %}
     </body>
 </html>
